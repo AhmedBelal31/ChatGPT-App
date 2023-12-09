@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:chatgpt/core/utils/constants/constants.dart';
-import 'package:chatgpt/features/presentation/controller/cubit/bloc_observer.dart';
-import 'package:chatgpt/features/presentation/controller/cubit/cubit.dart';
-import 'package:chatgpt/features/presentation/views/home_view.dart';
+import 'package:chatgpt/presentation/controller/cubit/bloc_observer.dart';
+import 'package:chatgpt/presentation/controller/cubit/cubit.dart';
+import 'package:chatgpt/presentation/views/home_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
