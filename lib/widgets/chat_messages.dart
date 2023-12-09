@@ -3,7 +3,7 @@ import 'package:chatgpt/constants/styles.dart';
 import 'package:chatgpt/services/assets_data.dart';
 import 'package:flutter/material.dart';
 
-
+import 'package:animated_text_kit/animated_text_kit.dart';
 
 class UserMessages extends StatelessWidget {
   const UserMessages({super.key ,this.userMessage,});
@@ -69,13 +69,34 @@ class ChatMessages extends StatelessWidget {
           ),
           const SizedBox(width: 5),
           Expanded(
-              child: Text(
-            chatMessage ?? '',
-            style: Styles.textStyle16.copyWith(
-              height: 1.5,
+          //     child: Text(
+          //   chatMessage ?? '',
+          //   style: Styles.textStyle16.copyWith(
+          //     height: 1.5,
+          //     letterSpacing: 1.1,
+          //   ),
+          // ),
+            child: DefaultTextStyle(
+              style: Styles.textStyle16.copyWith(
               letterSpacing: 1.1,
+              height: 1.5,
             ),
-          )),
+              child: AnimatedTextKit(
+                totalRepeatCount: 1,
+                stopPauseOnTap: true,
+                animatedTexts: [
+                  TypewriterAnimatedText(
+                      chatMessage ?? '',
+                  ),
+
+
+                ],
+                onTap: () {
+                  print("Tap Event");
+                },
+              ),
+            ),
+          ),
           const SizedBox(width: 5),
           const Icon(Icons.thumb_up_alt_outlined),
           const SizedBox(width: 5),

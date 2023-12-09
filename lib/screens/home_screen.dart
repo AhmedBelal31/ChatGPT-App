@@ -77,6 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       chatMessage:
                                           BlocProvider.of<AppCubit>(context)
                                               .responseMessage[index]),
+
                               ],
                             );
                           } else {
@@ -85,6 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           }
                         },
                         itemCount: textFormFieldValues.length,
+
 
                         // itemCount:  textFormFieldValues.length,
                       ),
@@ -97,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
 
                     //const SpinKitThreeBounce(color: Colors.white,size: 20,),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Material(
                       color: cardColor,
                       child: Padding(
@@ -135,6 +137,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                       .getResponseMessage(
                                           textFormFieldController.text);
                                   textFormFieldController.clear();
+                                  scrollController.animateTo(
+                                      scrollController.position.maxScrollExtent,
+                                      duration:
+                                          const Duration(milliseconds: 800),
+                                      curve: Curves.easeInOut);
                                 },
                                 decoration: const InputDecoration(
                                     border: InputBorder.none,
@@ -149,6 +156,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                       .getResponseMessage(
                                           textFormFieldController.text);
                                   textFormFieldController.clear();
+                                  scrollController.animateTo(
+                                      scrollController.position.maxScrollExtent,
+                                      duration: const Duration(
+                                        milliseconds: 800,
+                                      ),
+                                      curve: Curves.easeInOut);
                                 },
                                 icon: const Icon(
                                   Icons.send,
