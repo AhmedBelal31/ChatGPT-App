@@ -1,17 +1,26 @@
 import 'package:bloc/bloc.dart';
-import 'package:chatgpt/constants/constants.dart';
-import 'package:chatgpt/cubit/bloc_observer.dart';
-import 'package:chatgpt/cubit/cubit.dart';
+import 'package:chatgpt/core/utils/constants/constants.dart';
+import 'package:chatgpt/presentation/controller/cubit/bloc_observer.dart';
+import 'package:chatgpt/presentation/controller/cubit/cubit.dart';
+import 'package:chatgpt/presentation/views/home_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'screens/home_screen.dart';
+
 
 void main() {
   Bloc.observer = MyBlocObserver();
   runApp(const ChatGPT());
 }
-
+/// TO Do :
+//Add Arabic to Bot
+// fix scroll to end of list
+// fix responsive
+//add models
+//add copy button
+// add clear button
+//add icon to app
+// change name
 class ChatGPT extends StatelessWidget {
   const ChatGPT({super.key});
 
@@ -31,7 +40,7 @@ class ChatGPT extends StatelessWidget {
           // textTheme:GoogleFonts.montserratTextTheme(ThemeData.dark().textTheme) ,
         ),
         debugShowCheckedModeBanner: false,
-        home: HomeScreen(),
+        home: const HomeView(),
       ),
     );
   }

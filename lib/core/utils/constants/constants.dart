@@ -1,5 +1,3 @@
-
-import 'package:chatgpt/widgets/chat_messages.dart';
 import 'package:flutter/material.dart';
 
 Color scaffoldBackgroundColor = const Color(0xFF343541);
