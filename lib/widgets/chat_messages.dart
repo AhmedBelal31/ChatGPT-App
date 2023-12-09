@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 
 class ChatMessages extends StatelessWidget {
   const ChatMessages(
-      {super.key, required this.chatIndex, required this.message});
+      {super.key,  this.chatIndex,  this.message});
 
-  final int chatIndex;
+  final int? chatIndex;
 
-  final String message;
+  final String? message;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class ChatMessages extends StatelessWidget {
               const SizedBox(width: 5),
               Expanded(
                   child: Text(
-                message,
+                message ??'',
                 style: Styles.textStyle16.copyWith(
                   height: 1.5,
                   letterSpacing: 1.1,
