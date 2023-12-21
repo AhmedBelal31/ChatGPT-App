@@ -20,8 +20,24 @@ class _HomeViewState extends State<HomeView> {
   bool isTyping = false;
   TextEditingController textFormFieldController = TextEditingController();
   List textFormFieldValues = [];
-
   ScrollController scrollController = ScrollController();
+
+  // double maxScrollExtent = 0 ;
+// @override
+//   void initState() {
+//     scrollController.addListener(() {
+//       maxScrollExtent = scrollController.position.maxScrollExtent ;
+//       print(scrollController.position.maxScrollExtent);
+//     });
+//     super.initState();
+//   }
+  @override
+  void dispose() {
+    textFormFieldController.dispose();
+    scrollController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWith = MediaQuery.of(context).size.width;
@@ -30,12 +46,6 @@ class _HomeViewState extends State<HomeView> {
       builder: (context, state) {
         return Scaffold(
           appBar: customAppBar(),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              AppCubit.get(context).getAllModels();
-            },
-            child: Icon(Icons.add),
-          ),
           body: Padding(
             padding: screenWith >= 1000
                 ? EdgeInsets.symmetric(
@@ -50,7 +60,13 @@ class _HomeViewState extends State<HomeView> {
                 if (isTyping && textFormFieldController.text.isNotEmpty)
                   const SpinKitThreeBounce(color: Colors.white, size: 20),
                 const SizedBox(height: 10),
-                buildCustomTextField(context),
+                DefaultTextField(
+                    scrollController: scrollController,
+                    textFormFieldController: textFormFieldController,
+                    isTyping: isTyping,
+                    textFormFieldValues: textFormFieldValues),
+                // buildCustomTextField(context),
+
                 const SizedBox(height: 10),
               ],
             ),
@@ -60,72 +76,67 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  Material buildCustomTextField(BuildContext context) {
-    return Material(
-      color: cardColor,
-      child: Padding(
-        padding: const EdgeInsets.all(6.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: TextFormField(
-                controller: textFormFieldController,
-                style: Styles.textStyle16,
-                onChanged: (value) {
-                  debugPrint(value);
-                  if (value.isNotEmpty) {
-                    setState(() {
-                      isTyping = true;
-                    });
-                  } else {
-                    setState(() {
-                      isTyping = false;
-                    });
-                  }
-                },
-                onFieldSubmitted: (value) {
-                  textFormFieldController.text = value;
-                  textFormFieldValues.add(textFormFieldController.text);
-                  AppCubit.get(context)
-                      .getResponseMessage(query: textFormFieldController.text ,);
-                  textFormFieldController.clear();
-                  scrollController.animateTo(
-                    scrollController.position.maxScrollExtent,
-                    duration: const Duration(milliseconds: 800),
-                    curve: Curves.easeInOut,
-                  );
-                },
-                decoration: const InputDecoration(
-                    border: InputBorder.none,
-                    hintText: '  How Can I help you '),
-              ),
-            ),
-            IconButton(
-                onPressed: () {
-                  textFormFieldValues.add(textFormFieldController.text);
-                  AppCubit.get(context).getResponseMessage(
-                   query:  textFormFieldController.text,
+  // Material buildCustomTextField(BuildContext context) {
+  //   return Material(
+  //     color: cardColor,
+  //     child: Padding(
+  //       padding: const EdgeInsets.all(6.0),
+  //       child: Row(
+  //         crossAxisAlignment: CrossAxisAlignment.start,
+  //         children: [
+  //           Expanded(
+  //             child: TextFormField(
+  //               controller: textFormFieldController,
+  //               style: Styles.textStyle16,
+  //               onChanged: (value) {
+  //                 if (value.isNotEmpty) {
+  //                   setState(() {
+  //                     isTyping = true;
+  //                   });
+  //                 } else {
+  //                   setState(() {
+  //                     isTyping = false;
+  //                   });
+  //                 }
+  //               },
+  //               onFieldSubmitted: (value) {
+  //                 textFormFieldController.text = value;
+  //                 buildSendMessageButton(context);
+  //               },
+  //               decoration: const InputDecoration(
+  //                   border: InputBorder.none,
+  //                   hintText: '  How Can I help you '),
+  //             ),
+  //           ),
+  //           IconButton(
+  //               onPressed: () {
+  //                 buildSendMessageButton(context);
+  //               },
+  //               icon: const Icon(
+  //                 Icons.send,
+  //                 color: Colors.white,
+  //               ))
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 
+  // void buildSendMessageButton(BuildContext context) {
+  //   textFormFieldValues.add(textFormFieldController.text);
+  //   AppCubit.get(context)
+  //       .getResponseMessage(query: textFormFieldController.text);
+  //   textFormFieldController.clear();
+  //   scrollListToTheEnd();
+  // }
 
-                  );
-                  textFormFieldController.clear();
-                  scrollController.animateTo(
-                      scrollController.position.maxScrollExtent,
-                      duration: const Duration(
-                        milliseconds: 800,
-                      ),
-                      curve: Curves.easeInOut);
-                },
-                icon: const Icon(
-                  Icons.send,
-                  color: Colors.white,
-                ))
-          ],
-        ),
-      ),
-    );
-  }
+  // void scrollListToTheEnd() {
+  //   scrollController.animateTo(
+  //     scrollController.position.maxScrollExtent,
+  //     duration: const Duration(milliseconds: 800),
+  //     curve: Curves.easeInOut,
+  //   );
+  // }
 
   AppBar customAppBar() => AppBar(
         scrolledUnderElevation: 0.0,
@@ -181,4 +192,88 @@ class _HomeViewState extends State<HomeView> {
               icon: const Icon(Icons.more_vert_outlined))
         ],
       );
+}
+
+class DefaultTextField extends StatefulWidget {
+  DefaultTextField(
+      {super.key,
+      required this.textFormFieldController,
+      required this.isTyping,
+      required this.scrollController,
+      required this.textFormFieldValues});
+
+  TextEditingController textFormFieldController;
+
+  bool isTyping;
+
+  List textFormFieldValues;
+  ScrollController scrollController;
+
+  @override
+  State<DefaultTextField> createState() => _DefaultTextFieldState();
+}
+
+class _DefaultTextFieldState extends State<DefaultTextField> {
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: cardColor,
+      child: Padding(
+        padding: const EdgeInsets.all(6.0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: TextFormField(
+                controller: widget.textFormFieldController,
+                style: Styles.textStyle16,
+                onChanged: (value) {
+                  if (value.isNotEmpty) {
+                    setState(() {
+                      widget.isTyping = true;
+                    });
+                  } else {
+                    setState(() {
+                      widget.isTyping = false;
+                    });
+                  }
+                },
+                onFieldSubmitted: (value) {
+                  widget.textFormFieldController.text = value;
+                  buildSendMessageButton(context);
+                },
+                decoration: const InputDecoration(
+                    border: InputBorder.none,
+                    hintText: '  How Can I help you '),
+              ),
+            ),
+            IconButton(
+                onPressed: () {
+                  buildSendMessageButton(context);
+                },
+                icon: const Icon(
+                  Icons.send,
+                  color: Colors.white,
+                ))
+          ],
+        ),
+      ),
+    );
+  }
+
+  void buildSendMessageButton(BuildContext context) {
+    widget.textFormFieldValues.add(widget.textFormFieldController.text);
+    AppCubit.get(context)
+        .getResponseMessage(query: widget.textFormFieldController.text);
+    widget.textFormFieldController.clear();
+    scrollListToTheEnd();
+  }
+
+  void scrollListToTheEnd() {
+    widget.scrollController.animateTo(
+      widget.scrollController.position.maxScrollExtent,
+      duration: const Duration(milliseconds: 800),
+      curve: Curves.easeInOut,
+    );
+  }
 }

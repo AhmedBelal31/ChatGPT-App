@@ -4,12 +4,12 @@ import 'package:chatgpt/core/utils/services/assets_data.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:clipboard/clipboard.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class ChatMessages extends StatelessWidget {
-  const ChatMessages({super.key, this.chatMessage});
+  ChatMessages({super.key, this.chatMessage, this.scrollController});
 
   final String? chatMessage;
+  ScrollController? scrollController;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class ChatMessages extends StatelessWidget {
               const SizedBox(width: 10),
               Image.asset(AssetsData.chatLogo, width: 30, height: 50),
               const SizedBox(width: 5),
-              buildAnimatedResponseText(),
+              buildAnimatedResponseText(scrollController),
             ],
           ),
           const SizedBox(height: 5),
@@ -73,7 +73,7 @@ class ChatMessages extends StatelessWidget {
     );
   }
 
-  Widget buildAnimatedResponseText() {
+  Widget buildAnimatedResponseText(ScrollController? scrollController) {
     return Expanded(
       child: DefaultTextStyle(
         style: Styles.textStyle16
@@ -83,7 +83,17 @@ class ChatMessages extends StatelessWidget {
           stopPauseOnTap: true,
           animatedTexts: [TypewriterAnimatedText(chatMessage ?? '')],
           onTap: () {},
+          onFinished: () {
+            if (scrollController != null) {
+              scrollController.animateTo(
+                scrollController.position.maxScrollExtent,
+                duration: const Duration(milliseconds: 800),
+                curve: Curves.easeInOut,
+              );
+            }
+          },
         ),
+        // child: Text(chatMessage.toString()),
       ),
     );
   }

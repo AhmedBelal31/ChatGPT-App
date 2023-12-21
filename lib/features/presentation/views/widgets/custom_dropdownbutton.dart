@@ -15,7 +15,8 @@ class CustomDropdown extends StatelessWidget {
         var cubit = AppCubit.get(context);
         return DropdownButton(
           dropdownColor: scaffoldBackgroundColor,
-          items: models.map(
+          items: models
+              .map(
                 (model) => DropdownMenuItem(
                   value: model,
                   // onTap: cubit.getAllModels,

@@ -4,17 +4,24 @@ import 'package:chatgpt/features/presentation/views/widgets/user_messages.dart';
 import 'package:flutter/material.dart';
 
 class ChatListView extends StatelessWidget {
-  const ChatListView({
+  ChatListView({
     super.key,
     required this.scrollController,
     required this.textFormFieldValues,
   });
 
-  final ScrollController scrollController;
+  ScrollController scrollController;
   final List textFormFieldValues;
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      scrollController.animateTo(
+        scrollController.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 800),
+        curve: Curves.easeInOut,
+      );
+    });
     return Expanded(
       child: ListView.builder(
         controller: scrollController,
@@ -25,7 +32,9 @@ class ChatListView extends StatelessWidget {
               children: [
                 UserMessages(userMessage: textFormFieldValues[index]),
                 if (index < AppCubit.get(context).responseMessage.length)
-                  ChatMessages(chatMessage: AppCubit.get(context).responseMessage[index])
+                  ChatMessages(
+                      chatMessage: AppCubit.get(context).responseMessage[index],
+                      scrollController: scrollController),
               ],
             );
           } else {

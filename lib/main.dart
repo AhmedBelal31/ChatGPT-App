@@ -16,9 +16,6 @@ void main() {
 //Add Arabic to Bot
 // fix scroll to end of list
 // fix responsive
-//add models
-//add icon to app
-// change name
 // Connect To internet
 class ChatGPT extends StatelessWidget {
   const ChatGPT({super.key});
