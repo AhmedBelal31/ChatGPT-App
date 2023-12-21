@@ -44,6 +44,7 @@ class AppCubit extends Cubit<AppStates> {
     GetMessageService()
         .getResponseMessage(query: query, modelName: getSelectedModel())
         .then((value) {
+      print(value);
       responseMessage.add(value);
       emit(GetResponseSuccessState());
       // for(int i =0 ; i<responseMessage.length ; i++)

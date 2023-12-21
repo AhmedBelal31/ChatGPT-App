@@ -33,7 +33,8 @@ class ChatGPT extends StatelessWidget {
           appBarTheme: AppBarTheme(
             color: cardColor,
           ),
-          // textTheme:GoogleFonts.montserratTextTheme(ThemeData.dark().textTheme) ,
+        // textTheme:GoogleFonts.montserratTextTheme(ThemeData.dark().textTheme) ,
+        //textTheme:GoogleFonts.ibmPlexSansArabicTextTheme(ThemeData.dark().textTheme),
         ),
         debugShowCheckedModeBanner: false,
         home: const HomeView(),

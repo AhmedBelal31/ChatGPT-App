@@ -3,8 +3,10 @@ import 'package:chatgpt/core/utils/constants/styles.dart';
 import 'package:chatgpt/core/utils/services/assets_data.dart';
 import 'package:chatgpt/features/presentation/controller/cubit/cubit.dart';
 import 'package:chatgpt/features/presentation/controller/cubit/states.dart';
+import 'package:chatgpt/features/presentation/views/home_view.dart';
 import 'package:chatgpt/features/presentation/views/widgets/chat_listview.dart';
 import 'package:chatgpt/features/presentation/views/widgets/custom_dropdownbutton.dart';
+import 'package:chatgpt/features/presentation/views/widgets/default_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -22,15 +24,6 @@ class _HomeViewState extends State<HomeView> {
   List textFormFieldValues = [];
   ScrollController scrollController = ScrollController();
 
-  // double maxScrollExtent = 0 ;
-// @override
-//   void initState() {
-//     scrollController.addListener(() {
-//       maxScrollExtent = scrollController.position.maxScrollExtent ;
-//       print(scrollController.position.maxScrollExtent);
-//     });
-//     super.initState();
-//   }
   @override
   void dispose() {
     textFormFieldController.dispose();
@@ -61,12 +54,12 @@ class _HomeViewState extends State<HomeView> {
                   const SpinKitThreeBounce(color: Colors.white, size: 20),
                 const SizedBox(height: 10),
                 DefaultTextField(
-                    scrollController: scrollController,
-                    textFormFieldController: textFormFieldController,
-                    isTyping: isTyping,
-                    textFormFieldValues: textFormFieldValues),
+                  scrollController: scrollController,
+                  textFormFieldController: textFormFieldController,
+                  isTyping: isTyping,
+                  textFormFieldValues: textFormFieldValues,
+                ),
                 // buildCustomTextField(context),
-
                 const SizedBox(height: 10),
               ],
             ),
@@ -192,88 +185,4 @@ class _HomeViewState extends State<HomeView> {
               icon: const Icon(Icons.more_vert_outlined))
         ],
       );
-}
-
-class DefaultTextField extends StatefulWidget {
-  DefaultTextField(
-      {super.key,
-      required this.textFormFieldController,
-      required this.isTyping,
-      required this.scrollController,
-      required this.textFormFieldValues});
-
-  TextEditingController textFormFieldController;
-
-  bool isTyping;
-
-  List textFormFieldValues;
-  ScrollController scrollController;
-
-  @override
-  State<DefaultTextField> createState() => _DefaultTextFieldState();
-}
-
-class _DefaultTextFieldState extends State<DefaultTextField> {
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: cardColor,
-      child: Padding(
-        padding: const EdgeInsets.all(6.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: TextFormField(
-                controller: widget.textFormFieldController,
-                style: Styles.textStyle16,
-                onChanged: (value) {
-                  if (value.isNotEmpty) {
-                    setState(() {
-                      widget.isTyping = true;
-                    });
-                  } else {
-                    setState(() {
-                      widget.isTyping = false;
-                    });
-                  }
-                },
-                onFieldSubmitted: (value) {
-                  widget.textFormFieldController.text = value;
-                  buildSendMessageButton(context);
-                },
-                decoration: const InputDecoration(
-                    border: InputBorder.none,
-                    hintText: '  How Can I help you '),
-              ),
-            ),
-            IconButton(
-                onPressed: () {
-                  buildSendMessageButton(context);
-                },
-                icon: const Icon(
-                  Icons.send,
-                  color: Colors.white,
-                ))
-          ],
-        ),
-      ),
-    );
-  }
-
-  void buildSendMessageButton(BuildContext context) {
-    widget.textFormFieldValues.add(widget.textFormFieldController.text);
-    AppCubit.get(context)
-        .getResponseMessage(query: widget.textFormFieldController.text);
-    widget.textFormFieldController.clear();
-    scrollListToTheEnd();
-  }
-
-  void scrollListToTheEnd() {
-    widget.scrollController.animateTo(
-      widget.scrollController.position.maxScrollExtent,
-      duration: const Duration(milliseconds: 800),
-      curve: Curves.easeInOut,
-    );
-  }
 }

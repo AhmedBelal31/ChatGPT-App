@@ -11,12 +11,13 @@ class ApiServices {
       ),
       headers: headers ??
           {
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json; charset=utf-8',
             'Authorization': 'Bearer $openAIKey',
           },
     );
     if (response.statusCode == 200) {
-      List<dynamic> data = jsonDecode(response.body)['data'];
+      // List<dynamic> data = jsonDecode(response.body)['data'];
+      List<dynamic> data = jsonDecode(utf8.decode(response.bodyBytes))['data'];
       return data;
     } else {
       throw Exception(
@@ -30,13 +31,15 @@ class ApiServices {
     String? modelName,
     required String query,
   }) async {
-    http.Response response = await http.post(Uri.parse('$baseUrl$url'),
-        headers: headers ??
-            {
-              'Content-Type': 'application/json',
-              'Authorization': 'Bearer $openAIKey',
-            },
-        body: jsonEncode(
+    http.Response response = await http.post(
+      Uri.parse('$baseUrl$url'),
+      headers: headers ??
+          {
+            'Content-Type': 'application/json; charset=utf-8',
+            'Authorization': 'Bearer $openAIKey',
+          },
+      body: utf8.encode(
+        jsonEncode(
           {
             'model': modelName ?? "gpt-3.5-turbo-1106",
             'messages': [
@@ -46,11 +49,15 @@ class ApiServices {
               }
             ],
           },
-        ));
+        ),
+      ),
+    );
 
     if (response.statusCode == 200) {
       var content =
-          await jsonDecode(response.body)['choices'][0]['message']['content'];
+          // await jsonDecode(response.body)['choices'][0]['message']['content'];
+          await jsonDecode(utf8.decode(response.bodyBytes))['choices'][0]
+              ['message']['content'];
       return content;
     } else {
       throw Exception(
