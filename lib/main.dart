@@ -7,14 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-
 void main() {
   Bloc.observer = MyBlocObserver();
   runApp(const ChatGPT());
 }
+
 /// TO Do :
-//Add Arabic to Bot
-// fix scroll to end of list
+
 // fix responsive
 // Connect To internet
 class ChatGPT extends StatelessWidget {
@@ -33,8 +32,8 @@ class ChatGPT extends StatelessWidget {
           appBarTheme: AppBarTheme(
             color: cardColor,
           ),
-        // textTheme:GoogleFonts.montserratTextTheme(ThemeData.dark().textTheme) ,
-        //textTheme:GoogleFonts.ibmPlexSansArabicTextTheme(ThemeData.dark().textTheme),
+          // textTheme:GoogleFonts.montserratTextTheme(ThemeData.dark().textTheme) ,
+          //textTheme:GoogleFonts.ibmPlexSansArabicTextTheme(ThemeData.dark().textTheme),
         ),
         debugShowCheckedModeBanner: false,
         home: const HomeView(),

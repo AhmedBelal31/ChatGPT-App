@@ -3,7 +3,6 @@ import 'package:chatgpt/core/utils/constants/styles.dart';
 import 'package:chatgpt/core/utils/services/assets_data.dart';
 import 'package:chatgpt/features/presentation/controller/cubit/cubit.dart';
 import 'package:chatgpt/features/presentation/controller/cubit/states.dart';
-import 'package:chatgpt/features/presentation/views/home_view.dart';
 import 'package:chatgpt/features/presentation/views/widgets/chat_listview.dart';
 import 'package:chatgpt/features/presentation/views/widgets/custom_dropdownbutton.dart';
 import 'package:chatgpt/features/presentation/views/widgets/default_text_field.dart';
@@ -68,68 +67,6 @@ class _HomeViewState extends State<HomeView> {
       },
     );
   }
-
-  // Material buildCustomTextField(BuildContext context) {
-  //   return Material(
-  //     color: cardColor,
-  //     child: Padding(
-  //       padding: const EdgeInsets.all(6.0),
-  //       child: Row(
-  //         crossAxisAlignment: CrossAxisAlignment.start,
-  //         children: [
-  //           Expanded(
-  //             child: TextFormField(
-  //               controller: textFormFieldController,
-  //               style: Styles.textStyle16,
-  //               onChanged: (value) {
-  //                 if (value.isNotEmpty) {
-  //                   setState(() {
-  //                     isTyping = true;
-  //                   });
-  //                 } else {
-  //                   setState(() {
-  //                     isTyping = false;
-  //                   });
-  //                 }
-  //               },
-  //               onFieldSubmitted: (value) {
-  //                 textFormFieldController.text = value;
-  //                 buildSendMessageButton(context);
-  //               },
-  //               decoration: const InputDecoration(
-  //                   border: InputBorder.none,
-  //                   hintText: '  How Can I help you '),
-  //             ),
-  //           ),
-  //           IconButton(
-  //               onPressed: () {
-  //                 buildSendMessageButton(context);
-  //               },
-  //               icon: const Icon(
-  //                 Icons.send,
-  //                 color: Colors.white,
-  //               ))
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
-
-  // void buildSendMessageButton(BuildContext context) {
-  //   textFormFieldValues.add(textFormFieldController.text);
-  //   AppCubit.get(context)
-  //       .getResponseMessage(query: textFormFieldController.text);
-  //   textFormFieldController.clear();
-  //   scrollListToTheEnd();
-  // }
-
-  // void scrollListToTheEnd() {
-  //   scrollController.animateTo(
-  //     scrollController.position.maxScrollExtent,
-  //     duration: const Duration(milliseconds: 800),
-  //     curve: Curves.easeInOut,
-  //   );
-  // }
 
   AppBar customAppBar() => AppBar(
         scrolledUnderElevation: 0.0,
