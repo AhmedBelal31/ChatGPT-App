@@ -11,6 +11,21 @@ class AppCubit extends Cubit<AppStates> {
 
   String selectedItem = 'Model1';
 
+  String getSelectedModel() {
+    switch (selectedItem) {
+      case 'Model1':
+        return 'gpt-3.5-turbo-1106';
+      case 'Model2':
+        return 'gpt-3.5-turbo-0613';
+      case 'Model3':
+        return 'gpt-3.5-turbo-0301';
+      case 'Model4':
+        return 'gpt-3.5-turbo';
+      default:
+        return 'gpt-3.5-turbo-16k';
+    }
+  }
+
   void changeDropdownMenuItem(String value) {
     selectedItem = value;
     emit(ChangeDropdownMenuItemState());
@@ -21,18 +36,20 @@ class AppCubit extends Cubit<AppStates> {
     GetAllModels().getAllModel();
     emit(GetALlModelsSuccessState());
   }
-List<String> responseMessage = [] ;
-  void getResponseMessage(String query) {
+
+  List<String> responseMessage = [];
+
+  void getResponseMessage({required String query}) {
     emit(GetResponseLoadingState());
-    GetMessageService().getResponseMessage(query).then((value){
-      responseMessage.add(value) ;
+    GetMessageService()
+        .getResponseMessage(query: query, modelName: getSelectedModel())
+        .then((value) {
+      responseMessage.add(value);
       emit(GetResponseSuccessState());
       // for(int i =0 ; i<responseMessage.length ; i++)
       //   {
       //     print('Response Messages IS ${responseMessage[i]}');
       //   }
-
     });
-
   }
 }

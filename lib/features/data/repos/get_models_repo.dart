@@ -16,8 +16,10 @@ class GetAllModels {
     for(int i = 0 ; i<allModels.length ; i++)
       {
         print(allModels[i].id);
+
        // print(allModels[0].object);
        // print(allModels[0].ownedBy);
       }
+    print(allModels.length);
   }
 }

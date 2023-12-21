@@ -22,7 +22,6 @@ class _HomeViewState extends State<HomeView> {
   List textFormFieldValues = [];
 
   ScrollController scrollController = ScrollController();
-
   @override
   Widget build(BuildContext context) {
     double screenWith = MediaQuery.of(context).size.width;
@@ -31,6 +30,12 @@ class _HomeViewState extends State<HomeView> {
       builder: (context, state) {
         return Scaffold(
           appBar: customAppBar(),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              AppCubit.get(context).getAllModels();
+            },
+            child: Icon(Icons.add),
+          ),
           body: Padding(
             padding: screenWith >= 1000
                 ? EdgeInsets.symmetric(
@@ -83,7 +88,7 @@ class _HomeViewState extends State<HomeView> {
                   textFormFieldController.text = value;
                   textFormFieldValues.add(textFormFieldController.text);
                   AppCubit.get(context)
-                      .getResponseMessage(textFormFieldController.text);
+                      .getResponseMessage(query: textFormFieldController.text ,);
                   textFormFieldController.clear();
                   scrollController.animateTo(
                     scrollController.position.maxScrollExtent,
@@ -99,8 +104,11 @@ class _HomeViewState extends State<HomeView> {
             IconButton(
                 onPressed: () {
                   textFormFieldValues.add(textFormFieldController.text);
-                  BlocProvider.of<AppCubit>(context)
-                      .getResponseMessage(textFormFieldController.text);
+                  AppCubit.get(context).getResponseMessage(
+                   query:  textFormFieldController.text,
+
+
+                  );
                   textFormFieldController.clear();
                   scrollController.animateTo(
                       scrollController.position.maxScrollExtent,

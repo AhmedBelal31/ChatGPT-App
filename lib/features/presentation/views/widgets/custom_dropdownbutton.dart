@@ -18,7 +18,7 @@ class CustomDropdown extends StatelessWidget {
           items: models.map(
                 (model) => DropdownMenuItem(
                   value: model,
-                  onTap: cubit.getAllModels,
+                  // onTap: cubit.getAllModels,
                   child: Text(
                     model,
                     style: Styles.textStyle18,
