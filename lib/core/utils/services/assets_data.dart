@@ -4,4 +4,5 @@ class AssetsData {
   static const person = '$imagePath/person.png';
   static const openaiLogo = '$imagePath/openai_logo.jpg';
   static const chatLogo = '$imagePath/chat_logo.png';
+  static const noInternet = '$imagePath/connect.png';
 }

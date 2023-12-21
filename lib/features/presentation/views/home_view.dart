@@ -9,6 +9,7 @@ import 'package:chatgpt/features/presentation/views/widgets/default_text_field.d
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_offline/flutter_offline.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -32,41 +33,68 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    double screenWith = MediaQuery.of(context).size.width;
     return BlocConsumer<AppCubit, AppStates>(
       listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(
           appBar: customAppBar(),
-          body: Padding(
-            padding: screenWith >= 1000
-                ? EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.width / 4)
-                : EdgeInsets.zero,
-            child: Column(
-              children: [
-                ChatListView(
-                  scrollController: scrollController,
-                  textFormFieldValues: textFormFieldValues,
-                ),
-                if (isTyping && textFormFieldController.text.isNotEmpty)
-                  const SpinKitThreeBounce(color: Colors.white, size: 20),
-                const SizedBox(height: 10),
-                DefaultTextField(
-                  scrollController: scrollController,
-                  textFormFieldController: textFormFieldController,
-                  isTyping: isTyping,
-                  textFormFieldValues: textFormFieldValues,
-                ),
-                // buildCustomTextField(context),
-                const SizedBox(height: 10),
-              ],
-            ),
+          body: OfflineBuilder(
+              connectivityBuilder: (
+            BuildContext context,
+            ConnectivityResult connectivity,
+            Widget child,
+          ) {
+            final bool connected = connectivity != ConnectivityResult.none;
+            if (connected)
+              return buildBodyWidget();
+            else
+              return buildNoInternetWidget();
+          } ,
+            child: Center(child: CircularProgressIndicator()),
           ),
         );
       },
     );
   }
+
+  Widget buildBodyWidget() {
+    double screenWith = MediaQuery.of(context).size.width;
+    return Padding(
+      padding: screenWith >= 1000
+          ? EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width / 4)
+          : EdgeInsets.zero,
+      child: Column(
+        children: [
+          ChatListView(
+            scrollController: scrollController,
+            textFormFieldValues: textFormFieldValues,
+          ),
+          if (isTyping && textFormFieldController.text.isNotEmpty)
+            const SpinKitThreeBounce(color: Colors.white, size: 20),
+          const SizedBox(height: 10),
+          DefaultTextField(
+            scrollController: scrollController,
+            textFormFieldController: textFormFieldController,
+            isTyping: isTyping,
+            textFormFieldValues: textFormFieldValues,
+          ),
+          // buildCustomTextField(context),
+          const SizedBox(height: 10),
+        ],
+      ),
+    );
+  }
+
+  Widget buildNoInternetWidget() => Center(
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Text("Can't Connect , Check Internet " ,style: Styles.textStyle20,),
+      SizedBox(height: 20),
+      Image.asset(AssetsData.noInternet),
+    ],
+  ),);
 
   AppBar customAppBar() => AppBar(
         scrolledUnderElevation: 0.0,

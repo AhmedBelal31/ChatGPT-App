@@ -36,8 +36,8 @@ class ChatListView extends StatelessWidget {
                 return Column(
                   children: [
                     UserMessages(userMessage: textFormFieldValues[index]),
-                    if (state is GetResponseLoadingState)
-                      const SpinKitThreeBounce(color: Colors.white, size: 20),
+                    // if (state is GetResponseLoadingState)
+                    //   const SpinKitThreeBounce(color: Colors.white, size: 20),
                     if (index < AppCubit.get(context).responseMessage.length)
                       ChatMessages(
                           chatMessage:
