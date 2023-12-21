@@ -32,10 +32,16 @@ class _HomeViewState extends State<HomeView> {
         return Scaffold(
           appBar: customAppBar(),
           body: Padding(
-            padding: screenWith >= 1000 ? EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width / 4) : EdgeInsets.zero,
+            padding: screenWith >= 1000
+                ? EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width / 4)
+                : EdgeInsets.zero,
             child: Column(
               children: [
-                ChatListView(scrollController: scrollController, textFormFieldValues: textFormFieldValues),
+                ChatListView(
+                  scrollController: scrollController,
+                  textFormFieldValues: textFormFieldValues,
+                ),
                 if (isTyping && textFormFieldController.text.isNotEmpty)
                   const SpinKitThreeBounce(color: Colors.white, size: 20),
                 const SizedBox(height: 10),
@@ -129,6 +135,15 @@ class _HomeViewState extends State<HomeView> {
         ),
         actions: [
           IconButton(
+            onPressed: () {
+              setState(() {
+                textFormFieldValues = [];
+                AppCubit.get(context).responseMessage = [];
+              });
+            },
+            icon: const Icon(Icons.clear),
+          ),
+          IconButton(
               onPressed: () async {
                 await showModalBottomSheet(
                     backgroundColor: scaffoldBackgroundColor,
@@ -159,5 +174,3 @@ class _HomeViewState extends State<HomeView> {
         ],
       );
 }
-
-

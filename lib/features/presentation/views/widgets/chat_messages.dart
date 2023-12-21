@@ -3,6 +3,8 @@ import 'package:chatgpt/core/utils/constants/styles.dart';
 import 'package:chatgpt/core/utils/services/assets_data.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:clipboard/clipboard.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class ChatMessages extends StatelessWidget {
   const ChatMessages({super.key, this.chatMessage});
@@ -20,21 +22,52 @@ class ChatMessages extends StatelessWidget {
               ? BorderRadius.circular(20)
                   .copyWith(topLeft: const Radius.circular(0))
               : BorderRadius.zero),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
+      child: Column(
         children: [
-          const SizedBox(width: 10),
-          Image.asset(AssetsData.chatLogo, width: 30, height: 50),
-          const SizedBox(width: 5),
-          buildAnimatedResponseText(),
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 5),
-            child: Icon(Icons.thumb_up_alt_outlined),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(width: 10),
+              Image.asset(AssetsData.chatLogo, width: 30, height: 50),
+              const SizedBox(width: 5),
+              buildAnimatedResponseText(),
+            ],
           ),
-          const Icon(Icons.thumb_down_alt),
-          screenWith >= 1000
-              ? const SizedBox(width: 20)
-              : const SizedBox(width: 5),
+          const SizedBox(height: 5),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(width: 30),
+              IconButton(
+                icon: const Icon(
+                  Icons.content_copy,
+                  color: Colors.white,
+                  size: 22,
+                ),
+                onPressed: () {
+                  FlutterClipboard.copy(chatMessage ?? '');
+
+                  // Show Toast
+
+                  // FlutterClipboard.copy(chatMessage ??'').then((value)=>Fluttertoast.showToast(
+                  //     msg:"Copied",
+                  //     toastLength: Toast.LENGTH_SHORT,
+                  //     gravity: ToastGravity.BOTTOM,
+                  //     timeInSecForIosWeb: 1,
+                  //     backgroundColor: Colors.red,
+                  //     textColor: Colors.white,
+                  //     fontSize: 16.0
+                  // ));
+                },
+              ),
+              const Icon(Icons.thumb_up_alt_outlined),
+              const SizedBox(width: 10),
+              const Icon(Icons.thumb_down_alt),
+              screenWith >= 1000
+                  ? const SizedBox(width: 20)
+                  : const SizedBox(width: 5),
+            ],
+          ),
         ],
       ),
     );
