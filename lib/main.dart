@@ -17,10 +17,9 @@ void main() {
 // fix scroll to end of list
 // fix responsive
 //add models
-//add copy button
-// add clear button
 //add icon to app
 // change name
+// Connect To internet
 class ChatGPT extends StatelessWidget {
   const ChatGPT({super.key});
 
